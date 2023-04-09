@@ -417,3 +417,8 @@ document.getElementById("add-task-form").onclick = function (event) {
     document.getElementById("add-task-form").classList.remove("scale");
   }
 };
+
+/* handle select priority color on change and show the matching color */
+document.getElementById('select-priority').oninput = function(e) {
+  document.querySelector('[for="select-priority"]').setAttribute('data-color', e.target.value);
+}
