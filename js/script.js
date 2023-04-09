@@ -111,3 +111,12 @@ function accordionToggle() {
     });
   });
 }
+
+// Handle delete project
+function deleteProject(id) {
+  projects = projects.filter((p) => {
+    return p.id !== id;
+  });
+  storeProjects(projects);
+  displayProjects(projects);
+}
