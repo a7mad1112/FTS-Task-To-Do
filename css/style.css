@@ -39,4 +39,26 @@ section h2 {
 
 /* End Global Style */
 
+/* start header  */
+.header {
+  padding: 12px 20px;
+  width: 100%;
+  background-color: var(--sec-color);
+  display: none !important;
+}
+
+#toggle-bar {
+  color: var(--black-color);
+  padding: 2px 6px;
+  background-color: var(--sec-color);
+  cursor: pointer;
+}
+
+@media (max-width: 767px) {
+  .header {
+    display: flex !important;
+  }
+}
+
+/* end header */
 
