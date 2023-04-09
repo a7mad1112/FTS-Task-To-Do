@@ -75,7 +75,7 @@ displayTasks(tasks);
 function displayTasks(tasks) {
   completedAccordion.innerHTML = "";
   let template = "";
-
+  // console.log(tasks);
   if (tasks.filter((e) => !e.isComplete).length === 0)
     template = `
   <div class="relax-img">
@@ -119,4 +119,89 @@ function deleteProject(id) {
   });
   storeProjects(projects);
   displayProjects(projects);
+}
+
+// function to display the tasks that match the current section
+function displayProjectTasks(id) {
+  // close aside bar of needed
+  document.querySelector("body aside").classList.remove("show-side");
+
+  // remove active li from each and set it
+  document
+    .querySelectorAll("aside ul li a")
+    .forEach((e) => e.classList.remove("active"));
+  document.querySelector(`[data-id='${id}']`).classList.add("active");
+  currentSection = +id;
+
+  changeHeadingSection(currentSection);
+  // console.log(currentSection);
+  // get project tasks
+  tasks = getCurrentTasks(currentSection);
+  // display project tasks
+  displayTasks(tasks);
+}
+
+
+// function that return tasks that match current status
+function getCurrentTasks(currentSection) {
+  if (currentSection === 1) return JSON.parse(localStorage.getItem("tasks")) || [];
+  else if (currentSection === 2) return getTasksForCurrentDay();
+  else if (currentSection === 3) return getTasksForNextSevenDays();
+  else {
+    for (let proj of projects) {
+      if (proj.id === currentSection) return proj.tasks;
+    }
+  }
+}
+
+// function that filter the tasks and return the tasks with current day
+function getTasksForCurrentDay() {
+  const today = new Date().toDateString(); // get today's date in the format "Day Month Date Year"
+  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  currentTasksState = tasks.filter((task) => {
+    const taskDate = new Date(task.date).toDateString(); // convert the task's date to the same format
+    return taskDate === today; // return true if the task's date matches today's date
+  });
+  return currentTasksState;
+}
+
+// function to return tasks for the next week
+function getTasksForNextSevenDays() {
+  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  const today = new Date(); // get today's date
+  const nextSevenDays = new Date(
+    today.getFullYear(),
+    today.getMonth(),
+    today.getDate() + 7 // change this to 6 to include the current day
+  ); // get the date for 7 days from now
+  currentTasksState = tasks.filter((task) => {
+    const taskDate = new Date(task.date); // convert the task's date to a Date object
+    // return taskDate <= nextSevenDays;
+    return taskDate >= today && taskDate <= nextSevenDays;
+    // return taskDate >= today && taskDate <= nextSevenDays; // return true if the task's date falls within the next 7 days
+  });
+  return currentTasksState;
+}
+
+
+function changeHeadingSection(id) {
+  let header = document.querySelector("#main-content header h2");
+  if (id === 1) header.innerHTML = "Home";
+  else if (id === 2) header.innerHTML = "Today";
+  else if (id === 3) header.innerHTML = "Week";
+  else {
+    // find project name
+    for (let proj of projects) {
+      if (proj.id === id) {
+        header.innerHTML = proj.name;
+        break;
+      }
+    }
+  }
+  // display and hidden the add tasks button
+  document.getElementsByClassName("add-task")[0].style.display = !(
+    id !== 2 && id !== 3
+  )
+    ? "none"
+    : "block";
 }
