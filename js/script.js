@@ -406,3 +406,14 @@ function CompleteTask(taskId) {
   }
   displayTasks(tasks);
 }
+
+
+/* handle show and close adding new task form */
+document.querySelector(".close-add-task-form").onclick = () => {
+  document.getElementById("add-task-form").classList.remove("scale");
+};
+document.getElementById("add-task-form").onclick = function (event) {
+  if (event.target === this) {
+    document.getElementById("add-task-form").classList.remove("scale");
+  }
+};
