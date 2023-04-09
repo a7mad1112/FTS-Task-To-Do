@@ -385,3 +385,24 @@ function editTask(taskId) {
     document.getElementById("add-task-form").classList.remove("scale");
   };
 }
+
+// function to complete and unComplete Tasks
+function CompleteTask(taskId) {
+  getCurrentTasks();
+  tasks.forEach((task) => {
+    if (task.id === taskId) {
+      task.isComplete = !task.isComplete;
+    }
+  });
+  if ([1, 2, 3].includes(currentSection)) {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  } else {
+    for (let proj of projects)
+      if (proj.id === currentSection) {
+        proj.tasks = tasks;
+        break;
+      }
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }
+  displayTasks(tasks);
+}
