@@ -103,6 +103,61 @@ function displayTasks(tasks) {
   accordionToggle();
 }
 
+
+// general tasks template
+function myTemplate(task) {
+  return `
+  <div class="content-box">
+    <div class="task rounded-3 ${task.priority}-priority" aria-label="task">
+      <div class="label">
+        <label for="task-title-${task.id}">${task.title}</label>
+      </div>
+      <div class="task-actions">
+        <span id="edit-task-btn" onclick=editTask(${task.id})>
+          <i class="fa-solid fa-pen"></i>
+        </span>
+        <span id="delete-task-btn" role="button" aria-label="Delete task" onclick=deleteTask(${
+          task.id
+        })>
+          <i class="fa-solid fa-trash"></i>
+        </span>
+      </div>
+    </div>
+    <div class="content rounded-bottom">
+      <p>
+        Details: ${task.details}
+      </p>
+      <p id="end-date" class="mt-1 ${
+        hasDatePassed(task.date) ? "time-limit" : "null"
+      }">
+        <label for="task-date-${task.id}">Date:</label>
+        <span id="task-date-${task.id}">${task.date}</span>
+      </p>
+      <p class="is-done text-end">
+        <label for="task-isComplete-${task.id}">Complete: </label>
+        <input type="checkbox" id="task-isComplete-${task.id}" ${
+    task.isComplete ? "checked" : null
+  } name="isComplete" ${task.isComplete ?? "checked"} onclick=CompleteTask(${
+    task.id
+  })>
+      </p>
+    </div>
+  </div>
+  `;
+}
+
+// function to check if the date is passed
+function hasDatePassed(dateString) {
+  // create a Date object for the given date string
+  const date = new Date(dateString);
+
+  // create a Date object for the current date
+  const today = new Date();
+
+  // compare the two dates and return true if the given date has passed
+  return date < today;
+}
+
 /* accordion toggler */
 function accordionToggle() {
   const accordions = [...document.getElementsByClassName("content-box")];
@@ -220,9 +275,51 @@ function changeFormString(title, submit) {
   document.querySelector("#add-task-form button").innerHTML = submit;
 }
 
-
+// function to handle the input data and if valid then add them to storage
 function addTask(e) {
   e.preventDefault();
-  console.log("here");
-  
+  // console.log("here");
+  if (!validation()) {
+    document.querySelector(".title-err").innerHTML =
+      "Task must include a title.";
+    return;
+  }
+  document.getElementById("add-task-form").classList.remove("scale");
+  let title = document.getElementById("task-name").value;
+  let details = document.getElementById("task-details").value;
+  let priority = document.getElementById("select-priority").value;
+  let date = document.getElementById("due-date").value;
+  let newTask = {
+    title,
+    priority,
+    details,
+    date,
+    isComplete: false,
+    id: Math.random() * 100 + 1,
+  };
+  storeTask(newTask);
+}
+
+function validation() {
+  let value = document.getElementById("task-name").value;
+  return Boolean(value.trim()) && isNaN(value);
+}
+
+function storeTask(task) {
+  if (currentSection === 1) {
+    tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks.push(task);
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  } else {
+    projects = JSON.parse(localStorage.getItem("projects"));
+    for (let i = 0; i < projects.length; i++) {
+      if (projects[i].id === currentSection) {
+        projects[i].tasks.push(task);
+        tasks = projects[i].tasks;
+        break;
+      }
+    }
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }
+  displayTasks(tasks);
 }
