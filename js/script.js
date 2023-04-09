@@ -94,7 +94,8 @@ function displayTasks(tasks) {
 
   template = "";
 
-  tasks?.filter((e) => e.isComplete)
+  tasks
+    ?.filter((e) => e.isComplete)
     .forEach((task) => {
       template += myTemplate(task);
     });
@@ -141,10 +142,10 @@ function displayProjectTasks(id) {
   displayTasks(tasks);
 }
 
-
 // function that return tasks that match current status
 function getCurrentTasks(currentSection) {
-  if (currentSection === 1) return JSON.parse(localStorage.getItem("tasks")) || [];
+  if (currentSection === 1)
+    return JSON.parse(localStorage.getItem("tasks")) || [];
   else if (currentSection === 2) return getTasksForCurrentDay();
   else if (currentSection === 3) return getTasksForNextSevenDays();
   else {
@@ -183,7 +184,6 @@ function getTasksForNextSevenDays() {
   return currentTasksState;
 }
 
-
 function changeHeadingSection(id) {
   let header = document.querySelector("#main-content header h2");
   if (id === 1) header.innerHTML = "Home";
@@ -204,4 +204,25 @@ function changeHeadingSection(id) {
   )
     ? "none"
     : "block";
+}
+
+// show add task form on click
+function showAddTaskForm() {
+  changeFormString("New Task", "Create Task");
+  inputs.forEach((e) => (e.value = ""));
+  document.getElementById("add-task-form").classList.add("scale");
+  document.getElementById("add-task-modal").onsubmit = addTask;
+}
+
+// function to reset text nodes in add task form
+function changeFormString(title, submit) {
+  document.querySelector("#add-task-form h3").innerHTML = title;
+  document.querySelector("#add-task-form button").innerHTML = submit;
+}
+
+
+function addTask(e) {
+  e.preventDefault();
+  console.log("here");
+  
 }
