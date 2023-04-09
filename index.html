@@ -31,7 +31,80 @@
     </span>
   </header>
 
-  
+  <main class="d-flex">
+    <aside class="side">
+      <header class="bar-logo d-flex fa-align-center justify-content-between mb-3">
+        <h1>todo</h1>
+        <span class="scale-action logo">
+          <i class="fa-brands fa-github fs-4"></i>
+        </span>
+      </header>
+      <ul class="p-0">
+        <li class="">
+          <a href="#" class="active" data-id="1" onclick="displayProjectTasks(1)">
+            <i class="fa-solid fa-house"></i>
+            <span>home</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" data-id="2" onclick="displayProjectTasks(2)">
+            <i class="fa-solid fa-earth-americas"></i>
+            <span>today</span>
+          </a>
+        </li>
+        <li><a href="#" data-id="3" onclick="displayProjectTasks(3)">
+            <i class="fa-regular fa-calendar"></i>
+            <span>Next Seven Days</span>
+          </a>
+        </li>
+      </ul>
+      <div id="my-projects" class=" mt-4">
+        <div class="projects-title">
+          <div class="mb-3 d-flex align-items-center justify-content-between w-100">
+            <h2>My Projects</h2>
+            <div id="add-project"><i class="scale-action fa-solid fa-plus add-project fs-5"></i></div>
+          </div>
+        </div>
+        <ul id="projects-container" class="p-0">
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-list me-2"></i>
+              <span>Demo Project</span>
+              <div id="delete-project-btn">
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </a>
+          </li>
+
+          <li>
+            <a href="#">
+              <i class="fa-solid fa-list me-2"></i>
+              <span>Second Project</span>
+              <div id="delete-project-btn">
+                <i class="fa-solid fa-trash"></i>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <footer>
+        <hr>
+        <div id="display-mode">
+          <span class="light-mode">
+            <i class="fa-solid fa-sun"></i>
+          </span>
+          <span class="dark-mode">
+            <i class="fa-solid fa-moon"></i>
+          </span>
+          <span class="ball"></span>
+        </div>
+      </footer>
+    </aside>
+    <!-- Our content -->
+
+
+
+  </main>
 
 
   <script src="./js/bootstrap.bundle.min.js"></script>
