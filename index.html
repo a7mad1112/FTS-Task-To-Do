@@ -115,10 +115,10 @@
         </div>
         <div class="my-accordion">
           <!-- Tasks -->
-          <div class="relax-img">
+          <!-- <div class="relax-img">
             <img src="./imgs/relax.png" alt="relax">
             <p>You don't have any tasks, just relax!</p>
-          </div>
+          </div> -->
 
           
           <!-- Tasks -->
@@ -132,6 +132,48 @@
       </div>
     </section>
 
+    <div id="add-task-form" class="my-modal">
+      <div class="my-modal-content rounded">
+        <header class="py-4 px-3 rounded-top d-flex align-items-center justify-content-between">
+          <h3>New Task</h3>
+          <span class="close-add-task-form close-task-form">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </span>
+        </header>
+        <form class="p-3" id="add-task-modal">
+          <div class="form-group mb-2">
+            <label class="d-block" for="task-name">Title</label>
+            <input class="d-block" name="title" type="text" id="task-name">
+            <p class="title-err"></p>
+          </div>
+
+          <div class="form-group mb-2">
+            <label class="d-block" for="task-details">Details (notes)</label>
+            <textarea id="task-details" name="details" placeholder="Important details of your task..."></textarea>
+          </div>
+          <div class="form-group mb-2">
+            <div class="row gap-3">
+              <div class="col p-0">
+                <label for="select-priority" data-color="">Priority</label>
+                <select class="d-block" name="priority" id="select-priority">
+                  <option value="none">None</option>
+                  <option value="low">Low</option>
+                  <option value="medium">Medium</option>
+                  <option value="high">High</option>
+                </select>
+              </div>
+              <div class="col p-0">
+                <label for="due-date">Due Date</label>
+                <input name="date" type="date" id="due-date">
+              </div>
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            <button id="add-task" type="submit">Create Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
 
   </main>
