@@ -103,7 +103,6 @@ function displayTasks(tasks) {
   accordionToggle();
 }
 
-
 // general tasks template
 function myTemplate(task) {
   return `
@@ -322,4 +321,67 @@ function storeTask(task) {
     localStorage.setItem("projects", JSON.stringify(projects));
   }
   displayTasks(tasks);
+}
+
+// handle edit tasks
+function editTask(taskId) {
+  let task = {}; // get the task and display data
+  document.getElementById("add-task-form").classList.add("scale");
+  changeFormString("Edit Task", "Submit");
+  if ([1, 2, 3].includes(currentSection)) {
+    for (let t of tasks)
+      if (t.id === taskId) {
+        task = t;
+      }
+  } else {
+    for (let proj of projects)
+      if (proj.id === currentSection) {
+        task = proj.tasks.find((e) => e.id === taskId);
+        break;
+      }
+  }
+  // display data
+  inputs[0].value = task.title;
+  inputs[1].value = task.details;
+  inputs[2].value = task.priority;
+  inputs[3].value = task.date;
+  [inputs[0], inputs[1]].forEach(
+    (inp) =>
+      (inp.onclick = function (e) {
+        this.select();
+      })
+  );
+  document.getElementById("add-task-modal").onsubmit = function (e) {
+    e.preventDefault();
+    if (!validation()) {
+      document.querySelector(".title-err").innerHTML =
+        "Task must include a title.";
+      return;
+    }
+    let title = document.getElementById("task-name").value;
+    let details = document.getElementById("task-details").value;
+    let priority = document.getElementById("select-priority").value;
+    let date = document.getElementById("due-date").value;
+
+    let task = { title, details, priority, date };
+    // update the current task without effect on complete or id
+    if ([1, 2, 3].includes(currentSection)) {
+      for (let i = 0; i < tasks.length; i++)
+        if (tasks[i].id === taskId) tasks[i] = { ...tasks[i], ...task };
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    } else {
+      for (let proj of projects)
+        if (proj.id === currentSection) {
+          for (let i = 0; i < proj.tasks.length; i++)
+            if (proj.tasks[i].id === taskId) {
+              proj.tasks[i] = { ...proj.tasks[i], ...task };
+              tasks = proj.tasks;
+              break;
+            }
+        }
+      localStorage.setItem("projects", JSON.stringify(projects));
+    }
+    displayTasks(tasks);
+    document.getElementById("add-task-form").classList.remove("scale");
+  };
 }
