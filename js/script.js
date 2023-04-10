@@ -492,3 +492,9 @@ document.getElementById("select-priority").oninput = function (e) {
     .querySelector('[for="select-priority"]')
     .setAttribute("data-color", e.target.value);
 };
+
+
+/* toggle aside button */
+document.getElementById("toggle-bar").onclick = function () {
+  document.querySelector("body aside").classList.toggle("show-side");
+};
