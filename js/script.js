@@ -74,6 +74,7 @@ let [homeAccordion, completedAccordion] = [
 displayTasks(tasks);
 function displayTasks(tasks) {
   completedAccordion.innerHTML = "";
+  homeAccordion.innerHTML = "";
   let template = "";
   // console.log(tasks);
   if (tasks.filter((e) => !e.isComplete).length === 0)
@@ -87,63 +88,154 @@ function displayTasks(tasks) {
     tasks
       .filter((e) => !e.isComplete)
       .forEach((task) => {
-        template += myTemplate(task);
+        homeAccordion.appendChild(myTemplate(task));
       });
   }
-  homeAccordion.innerHTML = template;
 
-  template = "";
 
   tasks
     ?.filter((e) => e.isComplete)
     .forEach((task) => {
-      template += myTemplate(task);
+      completedAccordion.appendChild(myTemplate(task))
     });
-  completedAccordion.innerHTML = template;
   accordionToggle();
 }
 
-// general tasks template
+// // general tasks template
+// function myTemplate(task) {
+//   return `
+//   <div class="content-box">
+//     <div class="task rounded-3 ${task.priority}-priority" aria-label="task">
+//       <div class="label">
+//         <label for="task-title-${task.id}">${task.title}</label>
+//       </div>
+//       <div class="task-actions">
+//         <span id="edit-task-btn" onclick=editTask(${task.id})>
+//           <i class="fa-solid fa-pen"></i>
+//         </span>
+//         <span id="delete-task-btn" role="button" aria-label="Delete task" onclick=deleteTask(${
+//           task.id
+//         })>
+//           <i class="fa-solid fa-trash"></i>
+//         </span>
+//       </div>
+//     </div>
+//     <div class="content rounded-bottom">
+//       <p>
+//         Details: ${task.details}
+//       </p>
+//       <p id="end-date" class="mt-1 ${
+//         hasDatePassed(task.date) ? "time-limit" : "null"
+//       }">
+//         <label for="task-date-${task.id}">Date:</label>
+//         <span id="task-date-${task.id}">${task.date}</span>
+//       </p>
+//       <p class="is-done text-end">
+//         <label for="task-isComplete-${task.id}">Complete: </label>
+//         <input type="checkbox" id="task-isComplete-${task.id}" ${
+//     task.isComplete ? "checked" : null
+//   } name="isComplete" ${task.isComplete ?? "checked"} onclick=CompleteTask(${
+//     task.id
+//   })>
+//       </p>
+//     </div>
+//   </div>
+//   `;
+// }
+
 function myTemplate(task) {
-  return `
-  <div class="content-box">
-    <div class="task rounded-3 ${task.priority}-priority" aria-label="task">
-      <div class="label">
-        <label for="task-title-${task.id}">${task.title}</label>
-      </div>
-      <div class="task-actions">
-        <span id="edit-task-btn" onclick=editTask(${task.id})>
-          <i class="fa-solid fa-pen"></i>
-        </span>
-        <span id="delete-task-btn" role="button" aria-label="Delete task" onclick=deleteTask(${
-          task.id
-        })>
-          <i class="fa-solid fa-trash"></i>
-        </span>
-      </div>
-    </div>
-    <div class="content rounded-bottom">
-      <p>
-        Details: ${task.details}
-      </p>
-      <p id="end-date" class="mt-1 ${
-        hasDatePassed(task.date) ? "time-limit" : "null"
-      }">
-        <label for="task-date-${task.id}">Date:</label>
-        <span id="task-date-${task.id}">${task.date}</span>
-      </p>
-      <p class="is-done text-end">
-        <label for="task-isComplete-${task.id}">Complete: </label>
-        <input type="checkbox" id="task-isComplete-${task.id}" ${
-    task.isComplete ? "checked" : null
-  } name="isComplete" ${task.isComplete ?? "checked"} onclick=CompleteTask(${
-    task.id
-  })>
-      </p>
-    </div>
-  </div>
-  `;
+  const contentBox = document.createElement('div');
+  contentBox.className = 'content-box';
+
+  const taskContainer = document.createElement('div');
+  taskContainer.className = `task rounded-3 ${task.priority}-priority`;
+  taskContainer.setAttribute('aria-label', 'task');
+
+  const label = document.createElement('div');
+  label.className = 'label';
+
+  const labelFor = document.createElement('label');
+  labelFor.setAttribute('for', `task-title-${task.id}`);
+  labelFor.textContent = task.title;
+
+  label.appendChild(labelFor);
+
+  const taskActions = document.createElement('div');
+  taskActions.className = 'task-actions';
+
+  const editTaskBtn = document.createElement('span');
+  editTaskBtn.id = 'edit-task-btn';
+  editTaskBtn.setAttribute('onclick', `editTask(${task.id})`);
+
+  const editIcon = document.createElement('i');
+  editIcon.className = 'fa-solid fa-pen';
+
+  editTaskBtn.appendChild(editIcon);
+  taskActions.appendChild(editTaskBtn);
+
+  const deleteTaskBtn = document.createElement('span');
+  deleteTaskBtn.id = 'delete-task-btn';
+  deleteTaskBtn.setAttribute('role', 'button');
+  deleteTaskBtn.setAttribute('aria-label', 'Delete task');
+  deleteTaskBtn.setAttribute('onclick', `deleteTask(${task.id})`);
+
+  const deleteIcon = document.createElement('i');
+  deleteIcon.className = 'fa-solid fa-trash';
+
+  deleteTaskBtn.appendChild(deleteIcon);
+  taskActions.appendChild(deleteTaskBtn);
+
+  taskContainer.appendChild(label);
+  taskContainer.appendChild(taskActions);
+
+  const content = document.createElement('div');
+  content.className = 'content rounded-bottom';
+
+  const details = document.createElement('p');
+  details.textContent = `Details: ${task.details}`;
+
+  const endDate = document.createElement('p');
+  endDate.id = 'end-date';
+  endDate.className = `mt-1 ${hasDatePassed(task.date) ? 'time-limit' : 'null'}`;
+
+  const endDateLabel = document.createElement('label');
+  endDateLabel.setAttribute('for', `task-date-${task.id}`);
+  endDateLabel.textContent = 'Date:';
+
+  const endDateSpan = document.createElement('span');
+  endDateSpan.id = `task-date-${task.id}`;
+  endDateSpan.textContent = task.date;
+
+  endDate.appendChild(endDateLabel);
+  endDate.appendChild(endDateSpan);
+
+  const isDone = document.createElement('p');
+  isDone.className = 'is-done text-end';
+
+  const isCompleteLabel = document.createElement('label');
+  isCompleteLabel.setAttribute('for', `task-isComplete-${task.id}`);
+  isCompleteLabel.textContent = 'Complete: ';
+
+  const isCompleteCheckbox = document.createElement('input');
+  isCompleteCheckbox.type = 'checkbox';
+  isCompleteCheckbox.id = `task-isComplete-${task.id}`;
+  isCompleteCheckbox.name = 'isComplete';
+  isCompleteCheckbox.checked = task.isComplete;
+  isCompleteCheckbox.onclick = () => CompleteTask(task.id);
+
+  isDone.appendChild(isCompleteLabel);
+  isDone.appendChild(isCompleteCheckbox);
+
+  content.appendChild(details);
+  content.appendChild(endDate);
+  content.appendChild(isDone);
+
+  contentBox.appendChild(taskContainer);
+  contentBox.appendChild(content);
+
+  return contentBox;
 }
+
 
 // function to check if the date is passed
 function hasDatePassed(dateString) {
