@@ -47,24 +47,42 @@ function storeProjects(projects) {
 
 function displayProjects(projects) {
   let template = "";
+  projectsContainer.innerHTML = "";
   projects.forEach((proj) => {
-    template += projectTemplate(proj);
+    projectsContainer.appendChild(projectTemplate(proj));
   });
-  projectsContainer.innerHTML = template;
 }
 
+// template for projects
 function projectTemplate(project) {
-  return `
-  <li>
-            <a href="#" data-id="${project.id}" onclick="displayProjectTasks(${project.id})">
-              <i class="fa-solid fa-list me-2"></i>
-              <span>${project.name}</span>
-              <div id="delete-project-btn" onclick="deleteProject(${project.id})">
-                <i class="fa-solid fa-trash"></i>
-              </div>
-            </a>
-          </li>
-  `;
+  const li = document.createElement("li");
+  const a = document.createElement("a");
+  const iList = document.createElement("i");
+  const span = document.createElement("span");
+  const deleteBtn = document.createElement("div");
+  const iTrash = document.createElement("i");
+
+  li.appendChild(a);
+  a.appendChild(iList);
+  a.appendChild(span);
+  a.appendChild(deleteBtn);
+  deleteBtn.appendChild(iTrash);
+
+  li.classList.add("my-class");
+  a.href = "#";
+  a.dataset.id = project.id;
+  a.onclick = function () {
+    displayProjectTasks(project.id);
+  };
+  iList.classList.add("fa-solid", "fa-list", "me-2");
+  span.textContent = project.name;
+  deleteBtn.id = "delete-project-btn";
+  deleteBtn.onclick = function () {
+    deleteProject(project.id);
+  };
+  iTrash.classList.add("fa-solid", "fa-trash");
+
+  return li;
 }
 
 // function to display tasks
@@ -92,95 +110,53 @@ function displayTasks(tasks) {
       });
   }
 
-
   tasks
     ?.filter((e) => e.isComplete)
     .forEach((task) => {
-      completedAccordion.appendChild(myTemplate(task))
+      completedAccordion.appendChild(myTemplate(task));
     });
   accordionToggle();
 }
 
-// // general tasks template
-// function myTemplate(task) {
-//   return `
-//   <div class="content-box">
-//     <div class="task rounded-3 ${task.priority}-priority" aria-label="task">
-//       <div class="label">
-//         <label for="task-title-${task.id}">${task.title}</label>
-//       </div>
-//       <div class="task-actions">
-//         <span id="edit-task-btn" onclick=editTask(${task.id})>
-//           <i class="fa-solid fa-pen"></i>
-//         </span>
-//         <span id="delete-task-btn" role="button" aria-label="Delete task" onclick=deleteTask(${
-//           task.id
-//         })>
-//           <i class="fa-solid fa-trash"></i>
-//         </span>
-//       </div>
-//     </div>
-//     <div class="content rounded-bottom">
-//       <p>
-//         Details: ${task.details}
-//       </p>
-//       <p id="end-date" class="mt-1 ${
-//         hasDatePassed(task.date) ? "time-limit" : "null"
-//       }">
-//         <label for="task-date-${task.id}">Date:</label>
-//         <span id="task-date-${task.id}">${task.date}</span>
-//       </p>
-//       <p class="is-done text-end">
-//         <label for="task-isComplete-${task.id}">Complete: </label>
-//         <input type="checkbox" id="task-isComplete-${task.id}" ${
-//     task.isComplete ? "checked" : null
-//   } name="isComplete" ${task.isComplete ?? "checked"} onclick=CompleteTask(${
-//     task.id
-//   })>
-//       </p>
-//     </div>
-//   </div>
-//   `;
-// }
-
+// general tasks template
 function myTemplate(task) {
-  const contentBox = document.createElement('div');
-  contentBox.className = 'content-box';
+  const contentBox = document.createElement("div");
+  contentBox.className = "content-box";
 
-  const taskContainer = document.createElement('div');
+  const taskContainer = document.createElement("div");
   taskContainer.className = `task rounded-3 ${task.priority}-priority`;
-  taskContainer.setAttribute('aria-label', 'task');
+  taskContainer.setAttribute("aria-label", "task");
 
-  const label = document.createElement('div');
-  label.className = 'label';
+  const label = document.createElement("div");
+  label.className = "label";
 
-  const labelFor = document.createElement('label');
-  labelFor.setAttribute('for', `task-title-${task.id}`);
+  const labelFor = document.createElement("label");
+  labelFor.setAttribute("for", `task-title-${task.id}`);
   labelFor.textContent = task.title;
 
   label.appendChild(labelFor);
 
-  const taskActions = document.createElement('div');
-  taskActions.className = 'task-actions';
+  const taskActions = document.createElement("div");
+  taskActions.className = "task-actions";
 
-  const editTaskBtn = document.createElement('span');
-  editTaskBtn.id = 'edit-task-btn';
-  editTaskBtn.setAttribute('onclick', `editTask(${task.id})`);
+  const editTaskBtn = document.createElement("span");
+  editTaskBtn.id = "edit-task-btn";
+  editTaskBtn.setAttribute("onclick", `editTask(${task.id})`);
 
-  const editIcon = document.createElement('i');
-  editIcon.className = 'fa-solid fa-pen';
+  const editIcon = document.createElement("i");
+  editIcon.className = "fa-solid fa-pen";
 
   editTaskBtn.appendChild(editIcon);
   taskActions.appendChild(editTaskBtn);
 
-  const deleteTaskBtn = document.createElement('span');
-  deleteTaskBtn.id = 'delete-task-btn';
-  deleteTaskBtn.setAttribute('role', 'button');
-  deleteTaskBtn.setAttribute('aria-label', 'Delete task');
-  deleteTaskBtn.setAttribute('onclick', `deleteTask(${task.id})`);
+  const deleteTaskBtn = document.createElement("span");
+  deleteTaskBtn.id = "delete-task-btn";
+  deleteTaskBtn.setAttribute("role", "button");
+  deleteTaskBtn.setAttribute("aria-label", "Delete task");
+  deleteTaskBtn.setAttribute("onclick", `deleteTask(${task.id})`);
 
-  const deleteIcon = document.createElement('i');
-  deleteIcon.className = 'fa-solid fa-trash';
+  const deleteIcon = document.createElement("i");
+  deleteIcon.className = "fa-solid fa-trash";
 
   deleteTaskBtn.appendChild(deleteIcon);
   taskActions.appendChild(deleteTaskBtn);
@@ -188,38 +164,40 @@ function myTemplate(task) {
   taskContainer.appendChild(label);
   taskContainer.appendChild(taskActions);
 
-  const content = document.createElement('div');
-  content.className = 'content rounded-bottom';
+  const content = document.createElement("div");
+  content.className = "content rounded-bottom";
 
-  const details = document.createElement('p');
+  const details = document.createElement("p");
   details.textContent = `Details: ${task.details}`;
 
-  const endDate = document.createElement('p');
-  endDate.id = 'end-date';
-  endDate.className = `mt-1 ${hasDatePassed(task.date) ? 'time-limit' : 'null'}`;
+  const endDate = document.createElement("p");
+  endDate.id = "end-date";
+  endDate.className = `mt-1 ${
+    hasDatePassed(task.date) ? "time-limit" : "null"
+  }`;
 
-  const endDateLabel = document.createElement('label');
-  endDateLabel.setAttribute('for', `task-date-${task.id}`);
-  endDateLabel.textContent = 'Date:';
+  const endDateLabel = document.createElement("label");
+  endDateLabel.setAttribute("for", `task-date-${task.id}`);
+  endDateLabel.textContent = "Date:";
 
-  const endDateSpan = document.createElement('span');
+  const endDateSpan = document.createElement("span");
   endDateSpan.id = `task-date-${task.id}`;
   endDateSpan.textContent = task.date;
 
   endDate.appendChild(endDateLabel);
   endDate.appendChild(endDateSpan);
 
-  const isDone = document.createElement('p');
-  isDone.className = 'is-done text-end';
+  const isDone = document.createElement("p");
+  isDone.className = "is-done text-end";
 
-  const isCompleteLabel = document.createElement('label');
-  isCompleteLabel.setAttribute('for', `task-isComplete-${task.id}`);
-  isCompleteLabel.textContent = 'Complete: ';
+  const isCompleteLabel = document.createElement("label");
+  isCompleteLabel.setAttribute("for", `task-isComplete-${task.id}`);
+  isCompleteLabel.textContent = "Complete: ";
 
-  const isCompleteCheckbox = document.createElement('input');
-  isCompleteCheckbox.type = 'checkbox';
+  const isCompleteCheckbox = document.createElement("input");
+  isCompleteCheckbox.type = "checkbox";
   isCompleteCheckbox.id = `task-isComplete-${task.id}`;
-  isCompleteCheckbox.name = 'isComplete';
+  isCompleteCheckbox.name = "isComplete";
   isCompleteCheckbox.checked = task.isComplete;
   isCompleteCheckbox.onclick = () => CompleteTask(task.id);
 
@@ -235,7 +213,6 @@ function myTemplate(task) {
 
   return contentBox;
 }
-
 
 // function to check if the date is passed
 function hasDatePassed(dateString) {
@@ -499,7 +476,6 @@ function CompleteTask(taskId) {
   displayTasks(tasks);
 }
 
-
 /* handle show and close adding new task form */
 document.querySelector(".close-add-task-form").onclick = () => {
   document.getElementById("add-task-form").classList.remove("scale");
@@ -511,6 +487,8 @@ document.getElementById("add-task-form").onclick = function (event) {
 };
 
 /* handle select priority color on change and show the matching color */
-document.getElementById('select-priority').oninput = function(e) {
-  document.querySelector('[for="select-priority"]').setAttribute('data-color', e.target.value);
-}
+document.getElementById("select-priority").oninput = function (e) {
+  document
+    .querySelector('[for="select-priority"]')
+    .setAttribute("data-color", e.target.value);
+};
