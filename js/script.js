@@ -96,7 +96,7 @@ function displayTasks(tasks) {
   let template = "";
   // console.log(tasks);
   if (tasks.filter((e) => !e.isComplete).length === 0)
-    template = `
+  homeAccordion.innerHTML = `
   <div class="relax-img">
             <img src="./imgs/relax2.svg" alt="relax">
             <p>You don't have any tasks, just relax!</p>
@@ -492,7 +492,6 @@ document.getElementById("select-priority").oninput = function (e) {
     .querySelector('[for="select-priority"]')
     .setAttribute("data-color", e.target.value);
 };
-
 
 /* toggle aside button */
 document.getElementById("toggle-bar").onclick = function () {
