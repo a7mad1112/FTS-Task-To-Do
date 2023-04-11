@@ -141,7 +141,7 @@
       <div class="my-modal-content rounded">
         <header class="py-4 px-3 rounded-top d-flex align-items-center justify-content-between">
           <h3>New Task</h3>
-          <span class="close-add-task-form close-task-form">
+          <span class="close-add-task-form close-delete-form">
             <i class="fa-solid fa-circle-xmark"></i>
           </span>
         </header>
@@ -179,6 +179,28 @@
         </form>
       </div>
     </div>
+
+    <div id="delete-task-modal" class="my-modal">
+      <div class="my-modal-content rounded">
+        <header class="py-4 px-3 rounded-top d-flex align-items-center justify-content-between">
+          <h3>Delete Task</h3>
+          <span class="close-delete-task-form close-task-form">
+            <i class="fa-solid fa-circle-xmark"></i>
+          </span>
+        </header>
+
+        <div class="p-3" id="delete-task-form">
+          <div class="form-group">
+            <p>Are you sure Delete This Task</p>
+          </div>
+          <div class="form-group mt-3 d-flex gap-3 justify-content-end">
+            <button id="cancel-button" type="submit">Cancel</button>
+            <button id="delete-task" type="submit">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
   </main>

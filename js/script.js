@@ -96,7 +96,7 @@ function displayTasks(tasks) {
   let template = "";
   // console.log(tasks);
   if (tasks.filter((e) => !e.isComplete).length === 0)
-  homeAccordion.innerHTML = `
+    homeAccordion.innerHTML = `
   <div class="relax-img">
             <img src="./imgs/relax2.svg" alt="relax">
             <p>You don't have any tasks, just relax!</p>
@@ -497,3 +497,67 @@ document.getElementById("select-priority").oninput = function (e) {
 document.getElementById("toggle-bar").onclick = function () {
   document.querySelector("body aside").classList.toggle("show-side");
 };
+
+// function to delete task
+const deleteContainer = document.getElementById("delete-task-modal");
+
+function deleteTask(taskId) {
+  tasks = getCurrentTasks(currentSection);
+
+  confirmation().then((canDelete) => {
+    // if the user click ok, then will return resolved promise with true value
+    if (canDelete) {
+      // console.log("delete");
+      // console.log(canDelete);
+      // delete task
+      tasks = tasks.filter((t) => t.id !== taskId);
+      if ([1, 2, 3].includes(currentSection)) {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+      } else {
+        for (let proj of projects)
+          if (proj.id === currentSection) {
+            proj.tasks = tasks;
+          }
+        localStorage.setItem("projects", JSON.stringify(projects));
+      }
+      displayTasks(tasks);
+    }
+  });
+}
+// function that show the confirmation form and return true if the user enter ok, otherWays return false
+function confirmation() {
+  return new Promise((resolve) => {
+    // console.log("confirmation shown");
+    deleteContainer.style.transform = "scale(1)";
+
+    const deleteButton = document.getElementById("delete-task");
+    const cancelButton = document.getElementById("cancel-button");
+
+    document
+      .getElementById("delete-task-modal")
+      .addEventListener("click", function (e) {
+        if (e.target === e.currentTarget) closeDeleteForm();
+      });
+
+    document
+      .querySelector(".close-delete-form")
+      .addEventListener("click", () => {
+        closeDeleteForm();
+        console.log("clicked");
+      });
+
+    deleteButton.addEventListener("click", () => {
+      closeDeleteForm();
+      resolve(true);
+    });
+
+    cancelButton.addEventListener("click", () => {
+      closeDeleteForm();
+      resolve(false);
+    });
+  });
+}
+
+function closeDeleteForm() {
+  deleteContainer.style.transform = "scale(0)";
+}

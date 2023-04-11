@@ -621,3 +621,22 @@ label[data-color="high"]::after {
   color: #9f353f !important;
 }
 /* end dark mode */
+
+/* start delete task modal */
+#delete-task-modal {
+  /* transform: scale(1); */
+}
+
+#delete-task-modal header {
+  border-bottom: 3px solid var(--medium-priority);
+}
+
+#delete-task-modal button {
+  width: fit-content;
+  background-color: var(--black-color);
+}
+
+#delete-task-modal #delete-task {
+  background-color: var(--high-priority);
+}
+/* end delete task modal */
