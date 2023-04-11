@@ -633,7 +633,7 @@ label[data-color="high"]::after {
 
 #delete-task-modal button {
   width: fit-content;
-  background-color: var(--black-color);
+  padding: 6px 14px;
 }
 
 #delete-task-modal #delete-task {
