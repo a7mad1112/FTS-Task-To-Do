@@ -542,13 +542,6 @@ function confirmation() {
         if (e.target === e.currentTarget) closeDeleteForm();
       });
 
-    document
-      .getElementById("close-delete-form")
-      .addEventListener("click", () => {
-        closeDeleteForm();
-        // console.log("clicked");
-      });
-
     deleteButton.addEventListener("click", () => {
       closeDeleteForm();
       resolve(true);
