@@ -332,6 +332,7 @@ function changeHeadingSection(id) {
 // show add task form on click
 function showAddTaskForm() {
   changeFormString("New Task", "Create Task");
+  document.getElementById('task-name').focus();
   inputs.forEach((e) => (e.value = ""));
   document.getElementById("add-task-form").classList.add("scale");
   document.getElementById("add-task-modal").onsubmit = addTask;
