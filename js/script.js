@@ -132,8 +132,13 @@ function myTemplate(task) {
 
   const labelFor = document.createElement("label");
   labelFor.setAttribute("for", `task-title-${task.id}`);
-  labelFor.textContent = task.title;
 
+  const input = document.createElement('input');
+  input.value = task.title;
+  input.disabled = true;
+
+  // labelFor.textContent = task.title;
+  label.appendChild(input);
   label.appendChild(labelFor);
 
   const taskActions = document.createElement("div");
@@ -230,7 +235,7 @@ function hasDatePassed(dateString) {
 function accordionToggle() {
   const accordions = [...document.getElementsByClassName("content-box")];
   accordions.forEach((element) => {
-    element.querySelector(".label").addEventListener("click", function () {
+    element.querySelector(".label label").addEventListener("click", function () {
       element.classList.toggle("active");
     });
   });

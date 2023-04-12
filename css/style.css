@@ -314,8 +314,9 @@ body.display-dark #display-mode .ball {
   cursor: pointer;
 }
 
-.my-accordion .content-box .label::before {
+.my-accordion .content-box .label label::before {
   content: '+';
+  cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -323,8 +324,24 @@ body.display-dark #display-mode .ball {
   font-size: 1.3rem;
 }
 
-.my-accordion .content-box.active .label::before {
+.my-accordion .content-box.active .label label::before {
   content: '-';
+}
+
+.my-accordion .content-box .label input {
+  background-color: transparent;
+  all: unset;
+  border: 1px solid transparent;
+  transition: 0.3s;
+  padding: 3px 6px;
+  border-radius: 5px;
+}
+.my-accordion .content-box .label input:focus {
+  background-color: #fff;
+}
+.my-accordion .content-box .label input:focus,
+.my-accordion .content-box .label input:hover {
+  border: 1px solid var(--black-color);
 }
 
 .my-accordion .content-box .content {
