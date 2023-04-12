@@ -332,7 +332,7 @@ function changeHeadingSection(id) {
 // show add task form on click
 function showAddTaskForm() {
   changeFormString("New Task", "Create Task");
-  document.getElementById('task-name').focus();
+  document.getElementById("task-name").focus();
   inputs.forEach((e) => (e.value = ""));
   document.getElementById("add-task-form").classList.add("scale");
   document.getElementById("add-task-modal").onsubmit = addTask;
@@ -562,3 +562,14 @@ function confirmation() {
 function closeDeleteForm() {
   deleteContainer.style.transform = "scale(0)";
 }
+// close add, remove task form
+function closeAddAndRemoveForm() {
+  closeDeleteForm();
+  document.getElementById("add-task-form").classList.remove("scale");
+}
+
+
+document.addEventListener("keydown", function (ev) {
+  if (ev.key !== "Escape") return;
+  closeAddAndRemoveForm();
+});
