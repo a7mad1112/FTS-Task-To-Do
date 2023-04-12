@@ -540,7 +540,7 @@ function confirmation() {
       });
 
     document
-      .querySelector(".close-delete-form")
+      .getElementById("close-delete-form")
       .addEventListener("click", () => {
         closeDeleteForm();
         console.log("clicked");
