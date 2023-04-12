@@ -334,8 +334,9 @@ function showAddTaskForm() {
   changeFormString("New Task", "Create Task");
   document.getElementById("task-name").focus();
   inputs.forEach((e) => (e.value = ""));
-  document.getElementById("add-task-form").classList.add("scale");
   document.getElementById("add-task-modal").onsubmit = addTask;
+  document.getElementById("add-task-form").classList.add("show-modal");
+  document.querySelector(".title-err").innerHTML = "";
 }
 
 // function to reset text nodes in add task form
@@ -353,7 +354,7 @@ function addTask(e) {
       "Task must include a title.";
     return;
   }
-  document.getElementById("add-task-form").classList.remove("scale");
+  document.getElementById("add-task-form").classList.remove("show-modal");
   let title = document.getElementById("task-name").value;
   let details = document.getElementById("task-details").value;
   let priority = document.getElementById("select-priority").value;
@@ -396,7 +397,7 @@ function storeTask(task) {
 // handle edit tasks
 function editTask(taskId) {
   let task = {}; // get the task and display data
-  document.getElementById("add-task-form").classList.add("scale");
+  showAddTaskForm();
   changeFormString("Edit Task", "Submit");
   if ([1, 2, 3].includes(currentSection)) {
     for (let t of tasks)
@@ -422,6 +423,7 @@ function editTask(taskId) {
       })
   );
   document.getElementById("add-task-modal").onsubmit = function (e) {
+    document.querySelector(".title-err").innerHTML = "";
     e.preventDefault();
     if (!validation()) {
       document.querySelector(".title-err").innerHTML =
@@ -452,7 +454,7 @@ function editTask(taskId) {
       localStorage.setItem("projects", JSON.stringify(projects));
     }
     displayTasks(tasks);
-    document.getElementById("add-task-form").classList.remove("scale");
+    document.getElementById("add-task-form").classList.remove("show-modal");
   };
 }
 
@@ -479,11 +481,11 @@ function CompleteTask(taskId) {
 
 /* handle show and close adding new task form */
 document.querySelector(".close-add-task-form").onclick = () => {
-  document.getElementById("add-task-form").classList.remove("scale");
+  closeAddTaskModal();
 };
 document.getElementById("add-task-form").onclick = function (event) {
   if (event.target === this) {
-    document.getElementById("add-task-form").classList.remove("scale");
+    closeAddTaskModal();
   }
 };
 
@@ -529,7 +531,7 @@ function deleteTask(taskId) {
 function confirmation() {
   return new Promise((resolve) => {
     // console.log("confirmation shown");
-    deleteContainer.style.transform = "scale(1)";
+    deleteContainer.classList.add('show-modal');
 
     const deleteButton = document.getElementById("delete-task");
     const cancelButton = document.getElementById("cancel-button");
@@ -544,7 +546,7 @@ function confirmation() {
       .getElementById("close-delete-form")
       .addEventListener("click", () => {
         closeDeleteForm();
-        console.log("clicked");
+        // console.log("clicked");
       });
 
     deleteButton.addEventListener("click", () => {
@@ -559,17 +561,23 @@ function confirmation() {
   });
 }
 
+
+
 function closeDeleteForm() {
-  deleteContainer.style.transform = "scale(0)";
+  deleteContainer.classList.remove('show-modal');
 }
 // close add, remove task form
 function closeAddAndRemoveForm() {
   closeDeleteForm();
-  document.getElementById("add-task-form").classList.remove("scale");
+  closeAddTaskModal();
 }
-
+// close add task modal
+function closeAddTaskModal() {
+  document.getElementById("add-task-form").classList.remove("show-modal");
+}
 
 document.addEventListener("keydown", function (ev) {
   if (ev.key !== "Escape") return;
   closeAddAndRemoveForm();
+  closeAddTaskModal();
 });

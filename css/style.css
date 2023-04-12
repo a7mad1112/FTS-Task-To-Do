@@ -396,12 +396,40 @@ body.display-dark #display-mode .ball {
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0.7);
   transition: 0.3s;
+  /* transform: scale(0); */
+
+  opacity: 0;
+  visibility: hidden;
+}
+
+.my-modal-content {
+  transition: 0.3;
   transform: scale(0);
 }
 
-.scale {
-  transform: scale(1);
+.show-modal {
+  opacity: 1;
+  visibility: visible;
 }
+
+.show-modal .my-modal-content {
+  animation-name: show-modal;
+  animation-duration: 0.5s;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);;
+  animation-fill-mode: forwards;
+}
+
+
+@keyframes show-modal {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+
 
 .my-modal-content {
   background-color: #fff;
@@ -623,9 +651,7 @@ label[data-color="high"]::after {
 /* end dark mode */
 
 /* start delete task modal */
-#delete-task-modal {
-  /* transform: scale(1); */
-}
+
 
 #delete-task-modal header {
   border-bottom: 3px solid var(--medium-priority);
