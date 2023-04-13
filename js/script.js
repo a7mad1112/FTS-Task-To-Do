@@ -116,6 +116,18 @@ function displayTasks(tasks) {
       completedAccordion.appendChild(myTemplate(task));
     });
   accordionToggle();
+
+  const inlineInputs = [
+    ...document.querySelectorAll(
+      ".tasks-container .my-accordion .label > input"
+    ),
+  ];
+
+  inlineInputs.forEach((ele) => {
+    // console.log(ele);
+    ele.addEventListener("focus", inlineEdit);
+  });
+  // console.log(inlineInputs);
 }
 
 // general tasks template
@@ -133,11 +145,11 @@ function myTemplate(task) {
   const labelFor = document.createElement("label");
   labelFor.setAttribute("for", `task-title-${task.id}`);
 
-  const input = document.createElement('input');
+  const input = document.createElement("input");
   input.value = task.title;
-  input.disabled = true;
 
-  // labelFor.textContent = task.title;
+  input.dataset.taskId = task.id;
+
   label.appendChild(input);
   label.appendChild(labelFor);
 
@@ -219,6 +231,57 @@ function myTemplate(task) {
   return contentBox;
 }
 
+// function to edit task title data
+function inlineEdit(ele) {
+  // console.log("edit");
+  const value = ele.target.value;
+  ele.target.select();
+  // console.log(ele.target.dataset.taskId);
+  ele.target.oninput = function () {
+    // console.log(ele.target.value);
+  };
+  ele.target.onblur = renameTask;
+
+  document.addEventListener("keydown", function (ev) {
+    if (ev.key !== "Enter") return;
+    ele.target.blur()
+  });
+  
+
+  function renameTask () {
+    // some logic:
+    if (!isNaN(ele.target.value) || ele.target.value?.trim().length < 1) {
+      ele.target.value = value;
+      return;
+    }
+    // edit task data
+    editTaskTitle(ele.target.dataset.taskId, ele.target.value);
+  };
+}
+
+function editTaskTitle(taskId, title) {
+  taskId = +taskId;
+  if ([1, 2, 3].includes(currentSection)) {
+    for (let i = 0; i < tasks.length; i++) {
+      if (tasks[i].id === taskId) {
+        tasks[i].title = title;
+        break;
+      }
+    }
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  } else {
+    for (let proj of projects)
+      if (proj.id === currentSection) {
+        for (let i = 0; i < proj.tasks.length; i++)
+          if (proj.tasks[i].id === taskId) {
+            proj.tasks[i].title = title;
+            break;
+          }
+      }
+    localStorage.setItem("projects", JSON.stringify(projects));
+  }
+}
+
 // function to check if the date is passed
 function hasDatePassed(dateString) {
   // create a Date object for the given date string
@@ -235,9 +298,11 @@ function hasDatePassed(dateString) {
 function accordionToggle() {
   const accordions = [...document.getElementsByClassName("content-box")];
   accordions.forEach((element) => {
-    element.querySelector(".label label").addEventListener("click", function () {
-      element.classList.toggle("active");
-    });
+    element
+      .querySelector(".label label")
+      .addEventListener("click", function () {
+        element.classList.toggle("active");
+      });
   });
 }
 
@@ -536,7 +601,7 @@ function deleteTask(taskId) {
 function confirmation() {
   return new Promise((resolve) => {
     // console.log("confirmation shown");
-    deleteContainer.classList.add('show-modal');
+    deleteContainer.classList.add("show-modal");
 
     const deleteButton = document.getElementById("delete-task");
     const cancelButton = document.getElementById("cancel-button");
@@ -559,10 +624,8 @@ function confirmation() {
   });
 }
 
-
-
 function closeDeleteForm() {
-  deleteContainer.classList.remove('show-modal');
+  deleteContainer.classList.remove("show-modal");
 }
 // close add, remove task form
 function closeAddAndRemoveForm() {
