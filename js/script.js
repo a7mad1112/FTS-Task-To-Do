@@ -11,8 +11,8 @@ document.getElementById("display-mode").onclick = function () {
 };
 
 /* get tasks and projects from localStorage */
-let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-let projects = JSON.parse(localStorage.getItem("projects")) || [];
+let tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
+let projects = JSON.parse(localStorage.getItem("projects")) ?? [];
 let inputs = [
   ...document.querySelectorAll(
     "#add-task-modal input, #add-task-modal textarea, #add-task-modal select"
