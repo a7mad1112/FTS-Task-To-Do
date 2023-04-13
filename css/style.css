@@ -354,7 +354,14 @@ body.display-dark #display-mode .ball {
   transition: 0.3s;
   padding: 3px 6px;
   border-radius: 5px;
+  max-width: 160px;
 }
+@media (max-width: 567px) {
+  .my-accordion .content-box .label input {
+    width: 100px;
+  }
+}
+
 .my-accordion .content-box .label input:focus {
   background-color: #fff;
 }
