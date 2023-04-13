@@ -648,13 +648,22 @@ document.addEventListener("keydown", function (ev) {
 
 // function to add number of tasks in the three main section links
 window.addEventListener("load", setTasksCount);
-function setTasksCount () {
+function setTasksCount() {
   const home = document.querySelector('aside li a[data-id="1"]');
   const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
-  home.setAttribute('data-tasksCount', tasks.length);
+  home.setAttribute("data-tasksCount", tasks.length);
   // Set number of tasks for current day
   const today = document.querySelector('aside li a[data-id="2"]');
-  today.setAttribute('data-tasksCount', getTasksForCurrentDay().length)
+  today.setAttribute("data-tasksCount", getTasksForCurrentDay().length);
   const week = document.querySelector('aside li a[data-id="3"]');
-  week.setAttribute('data-tasksCount', getTasksForNextSevenDays().length)
+  week.setAttribute("data-tasksCount", getTasksForNextSevenDays().length);
 }
+
+// Filter tasks on input on search element and reRender them
+const searchElement = document.getElementById("search");
+searchElement.addEventListener("input", function (ev) {
+  const value = ev.target.value.trim();
+  // console.log(value);
+  tasks = getCurrentTasks(currentSection).filter(t => t.title.toLowerCase().startsWith(value.toLowerCase()));
+  displayTasks(tasks);
+});
