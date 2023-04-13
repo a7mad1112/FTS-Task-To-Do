@@ -108,8 +108,12 @@
     <!-- Our content -->
 
     <section id="main-content" class="p-5 w-100">
-      <header class="mb-3">
+      <header class="mb-3 d-flex align-items-center justify-content-between">
         <h2 class="fs-3">Home</h2>
+        <label for="search">
+          <span>Search: </span>
+          <input type="search" id="search">
+        </label>
       </header>
       <div class="tasks-container w-100">
         <div class="add-task w-100 rounded" onclick="showAddTaskForm()">

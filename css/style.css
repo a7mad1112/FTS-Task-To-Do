@@ -154,7 +154,7 @@ aside ul li a:hover:not(a.active) {
 }
 
 
-aside > ul li a::after {
+aside>ul li a::after {
   content: attr(data-tasksCount);
   position: absolute;
   right: 5px;
@@ -165,7 +165,8 @@ aside > ul li a::after {
   line-height: 14px;
   font-size: 14px;
 }
-aside > ul li a.active::after {
+
+aside>ul li a.active::after {
   color: var(--black-color);
   background-color: var(--sec-color);
 }
@@ -254,11 +255,40 @@ body.display-dark #display-mode .ball {
 
 /* End Mode Toggler */
 
-.fa-align-center:before
-{
+.fa-align-center:before {
   display: none;
 }
+
 /* End aside Style  */
+
+/* Start Main Section Header */
+#main-content>header label {
+  font-weight: bold;
+  font-style: italic;
+}
+
+#main-content>header label input {
+  padding: 0 5px;
+  border: 2px solid var(--black-color);
+  background-color: transparent;
+  outline: none;
+  border-radius: 5px;
+}
+
+@media (max-width: 567px) {
+  #main-content>header label {
+    font-size: 12px;
+  }
+  #main-content>header label input {
+    width: 100px;
+  }
+}
+
+.display-dark #main-content>header label #search {
+  border: 2px solid var(--sec-color);
+}
+
+/* End Main Section Header */
 
 /* tasks style  */
 .task {
@@ -356,6 +386,7 @@ body.display-dark #display-mode .ball {
   border-radius: 5px;
   max-width: 160px;
 }
+
 @media (max-width: 567px) {
   .my-accordion .content-box .label input {
     width: 100px;
@@ -365,6 +396,7 @@ body.display-dark #display-mode .ball {
 .my-accordion .content-box .label input:focus {
   background-color: #fff;
 }
+
 .my-accordion .content-box .label input:focus,
 .my-accordion .content-box .label input:hover {
   border: 1px solid var(--black-color);
@@ -417,6 +449,7 @@ body.display-dark #display-mode .ball {
   width: 100%;
   max-width: 600px;
 }
+
 .relax-img p {
   margin-top: 30px !important;
 }
@@ -458,7 +491,8 @@ body.display-dark #display-mode .ball {
 .show-modal .my-modal-content {
   animation-name: show-modal;
   animation-duration: 0.5s;
-  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);;
+  animation-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  ;
   animation-fill-mode: forwards;
 }
 
@@ -467,6 +501,7 @@ body.display-dark #display-mode .ball {
   0% {
     transform: scale(0);
   }
+
   100% {
     transform: scale(1);
   }
@@ -612,9 +647,11 @@ label[data-color="high"]::after {
   width: 100%;
   max-width: 600px;
 }
+
 .relax-img p {
   margin-top: 30px !important;
 }
+
 /* end add task modal */
 /* start dark mode */
 .display-dark .header {
@@ -680,7 +717,7 @@ label[data-color="high"]::after {
   color: var(--black-color);
 }
 
-.display-dark .my-modal-content .form-group button[type="submit"]{
+.display-dark .my-modal-content .form-group button[type="submit"] {
   background-color: var(--low-priority);
 }
 
@@ -691,6 +728,7 @@ label[data-color="high"]::after {
 .display-dark #end-date.time-limit {
   color: #9f353f !important;
 }
+
 /* end dark mode */
 
 /* start delete task modal */
@@ -708,4 +746,5 @@ label[data-color="high"]::after {
 #delete-task-modal #delete-task {
   background-color: var(--high-priority);
 }
+
 /* end delete task modal */
