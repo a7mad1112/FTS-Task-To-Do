@@ -65,7 +65,7 @@ section h2 {
 
 /* Start aside Style  */
 aside {
-  width: 300px;
+  width: 330px;
   background-color: var(--sec-color, #eef2f6);
   height: 100vh;
   position: sticky;
@@ -80,7 +80,7 @@ aside {
 
 @media (max-width: 767px) {
   .side {
-    left: -300px;
+    left: -330px;
     position: fixed;
     height: 100vh;
     padding-top: 60px;
@@ -140,6 +140,7 @@ aside ul li a {
   color: var(--black-color);
   display: inline-block;
   transition-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  position: relative;
 }
 
 aside ul li a.active {
@@ -151,6 +152,24 @@ aside ul li a:hover:not(a.active) {
   background-color: #171c2188;
   color: #fff;
 }
+
+
+aside > ul li a::after {
+  content: attr(data-tasksCount);
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 4px 7px;
+  border-radius: 50%;
+  line-height: 14px;
+  font-size: 14px;
+}
+aside > ul li a.active::after {
+  color: var(--black-color);
+  background-color: var(--sec-color);
+}
+
 
 .projects-title {
   display: flex;

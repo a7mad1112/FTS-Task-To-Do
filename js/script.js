@@ -148,7 +148,7 @@ function myTemplate(task) {
   const input = document.createElement("input");
   input.value = task.title;
   input.setAttribute("role", "text");
-  input.setAttribute('aria-label', 'text'); // using aria-label insted of adding label for this input 
+  input.setAttribute("aria-label", "text"); // using aria-label insted of adding label for this input
   input.dataset.taskId = task.id;
 
   label.appendChild(input);
@@ -462,6 +462,7 @@ function storeTask(task) {
     localStorage.setItem("projects", JSON.stringify(projects));
   }
   displayTasks(tasks);
+  setTasksCount();
 }
 
 // handle edit tasks
@@ -524,6 +525,7 @@ function editTask(taskId) {
       localStorage.setItem("projects", JSON.stringify(projects));
     }
     displayTasks(tasks);
+    setTasksCount();
     document.getElementById("add-task-form").classList.remove("show-modal");
   };
 }
@@ -594,6 +596,7 @@ function deleteTask(taskId) {
         localStorage.setItem("projects", JSON.stringify(projects));
       }
       displayTasks(tasks);
+      setTasksCount();
     }
   });
 }
@@ -642,3 +645,16 @@ document.addEventListener("keydown", function (ev) {
   closeAddAndRemoveForm();
   closeAddTaskModal();
 });
+
+// function to add number of tasks in the three main section links
+window.addEventListener("load", setTasksCount);
+function setTasksCount () {
+  const home = document.querySelector('aside li a[data-id="1"]');
+  const tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
+  home.setAttribute('data-tasksCount', tasks.length);
+  // Set number of tasks for current day
+  const today = document.querySelector('aside li a[data-id="2"]');
+  today.setAttribute('data-tasksCount', getTasksForCurrentDay().length)
+  const week = document.querySelector('aside li a[data-id="3"]');
+  week.setAttribute('data-tasksCount', getTasksForNextSevenDays().length)
+}
