@@ -661,9 +661,20 @@ function setTasksCount() {
 
 // Filter tasks on input on search element and reRender them
 const searchElement = document.getElementById("search");
-searchElement.addEventListener("input", function (ev) {
+searchElement.addEventListener("input", debounce(search, 300));
+
+function search(ev) {
   const value = ev.target.value.trim();
-  // console.log(value);
   tasks = getCurrentTasks(currentSection).filter(t => t.title.toLowerCase().startsWith(value.toLowerCase()));
   displayTasks(tasks);
-});
+}
+
+function debounce(fn, delay) {
+  let id;
+  return function(...args) {
+    if (id) clearTimeout(id);
+    id = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
