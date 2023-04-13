@@ -147,7 +147,8 @@ function myTemplate(task) {
 
   const input = document.createElement("input");
   input.value = task.title;
-
+  input.setAttribute("role", "text");
+  input.setAttribute('aria-label', 'text'); // using aria-label insted of adding label for this input 
   input.dataset.taskId = task.id;
 
   label.appendChild(input);
