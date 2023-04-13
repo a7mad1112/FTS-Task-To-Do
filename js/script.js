@@ -121,10 +121,10 @@ function displayTasks(tasks) {
     ...document.querySelectorAll(
       ".tasks-container .my-accordion .label > input"
     ),
+    ...document.querySelectorAll(".complete-tasks .label > input"),
   ];
 
   inlineInputs.forEach((ele) => {
-    // console.log(ele);
     ele.addEventListener("focus", inlineEdit);
   });
   // console.log(inlineInputs);
@@ -244,11 +244,10 @@ function inlineEdit(ele) {
 
   document.addEventListener("keydown", function (ev) {
     if (ev.key !== "Enter") return;
-    ele.target.blur()
+    ele.target.blur();
   });
-  
 
-  function renameTask () {
+  function renameTask() {
     // some logic:
     if (!isNaN(ele.target.value) || ele.target.value?.trim().length < 1) {
       ele.target.value = value;
@@ -256,7 +255,7 @@ function inlineEdit(ele) {
     }
     // edit task data
     editTaskTitle(ele.target.dataset.taskId, ele.target.value);
-  };
+  }
 }
 
 function editTaskTitle(taskId, title) {
