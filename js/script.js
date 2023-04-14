@@ -539,7 +539,7 @@ function editTask(taskId) {
 
 // function to complete and unComplete Tasks
 function CompleteTask(taskId) {
-  getCurrentTasks();
+  tasks = getCurrentTasks(currentSection);
   tasks.forEach((task) => {
     if (task.id === taskId) {
       task.isComplete = !task.isComplete;
