@@ -8,7 +8,7 @@ The app is built using HTML, CSS, Bootstrap, JS, JSON, localStorage, and ES6.
   The website is designed with web accessibility guidelines and best practices in mind, ensuring that it is accessible to users with disabilities.
 
 - ### SEO
-The website is optimized for search engines using a variety of techniques to improve its visibility and ranking on search engine results pages.
+  The website is optimized for search engines using a variety of techniques to improve its visibility and ranking on search engine results pages.
 
 - ### Dark/Light Mode
   Users can switch between dark and light mode depending on their preferences.
