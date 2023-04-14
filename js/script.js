@@ -342,7 +342,7 @@ function displayProjectTasks(id) {
 // function that return tasks that match current status
 function getCurrentTasks(currentSection) {
   if (currentSection === 1)
-    return JSON.parse(localStorage.getItem("tasks")) || [];
+    return JSON.parse(localStorage.getItem("tasks")) ?? [];
   else if (currentSection === 2) return getTasksForCurrentDay();
   else if (currentSection === 3) return getTasksForNextSevenDays();
   else {
@@ -355,7 +355,7 @@ function getCurrentTasks(currentSection) {
 // function that filter the tasks and return the tasks with current day
 function getTasksForCurrentDay() {
   const today = new Date().toDateString(); // get today's date in the format "Day Month Date Year"
-  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
   currentTasksState = tasks.filter((task) => {
     const taskDate = new Date(task.date).toDateString(); // convert the task's date to the same format
     return taskDate === today; // return true if the task's date matches today's date
@@ -365,7 +365,7 @@ function getTasksForCurrentDay() {
 
 // function to return tasks for the next week
 function getTasksForNextSevenDays() {
-  tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+  tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
   const today = new Date(); // get today's date
   const nextSevenDays = new Date(
     today.getFullYear(),
