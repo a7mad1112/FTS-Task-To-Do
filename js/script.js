@@ -185,6 +185,9 @@ function myTemplate(task) {
   const content = document.createElement("div");
   content.className = "content rounded-bottom";
 
+  const assignee = document.createElement("p");
+  assignee.appendChild(document.createTextNode("Assignee: " + task.assignee));
+
   const details = document.createElement("p");
   details.textContent = `Details: ${task.details}`;
 
@@ -222,6 +225,7 @@ function myTemplate(task) {
   isDone.appendChild(isCompleteLabel);
   isDone.appendChild(isCompleteCheckbox);
 
+  content.appendChild(assignee);
   content.appendChild(details);
   content.appendChild(endDate);
   content.appendChild(isDone);
@@ -429,8 +433,10 @@ function addTask(e) {
   let details = document.getElementById("task-details").value;
   let priority = document.getElementById("select-priority").value;
   let date = document.getElementById("due-date").value;
+  const assignee = document.getElementById("task-assignee").value;
   let newTask = {
     title,
+    assignee,
     priority,
     details,
     date,
@@ -447,7 +453,7 @@ function validation() {
 
 function storeTask(task) {
   if (currentSection === 1) {
-    tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    tasks = JSON.parse(localStorage.getItem("tasks")) ?? [];
     tasks.push(task);
     localStorage.setItem("tasks", JSON.stringify(tasks));
   } else {
@@ -484,9 +490,10 @@ function editTask(taskId) {
   }
   // display data
   inputs[0].value = task.title;
-  inputs[1].value = task.details;
-  inputs[2].value = task.priority;
-  inputs[3].value = task.date;
+  inputs[1].value = task.assignee;
+  inputs[2].value = task.details;
+  inputs[3].value = task.priority;
+  inputs[4].value = task.date;
   [inputs[0], inputs[1]].forEach(
     (inp) =>
       (inp.onclick = function (e) {
@@ -505,8 +512,8 @@ function editTask(taskId) {
     let details = document.getElementById("task-details").value;
     let priority = document.getElementById("select-priority").value;
     let date = document.getElementById("due-date").value;
-
-    let task = { title, details, priority, date };
+    const assignee = document.getElementById("task-assignee").value;
+    let task = { title, details, priority, date, assignee };
     // update the current task without effect on complete or id
     if ([1, 2, 3].includes(currentSection)) {
       for (let i = 0; i < tasks.length; i++)
@@ -665,13 +672,15 @@ searchElement.addEventListener("input", debounce(search, 300));
 
 function search(ev) {
   const value = ev.target.value.trim();
-  tasks = getCurrentTasks(currentSection).filter(t => t.title.toLowerCase().startsWith(value.toLowerCase()));
+  tasks = getCurrentTasks(currentSection).filter((t) =>
+    t.title.toLowerCase().startsWith(value.toLowerCase())
+  );
   displayTasks(tasks);
 }
 
 function debounce(fn, delay) {
   let id;
-  return function(...args) {
+  return function (...args) {
     if (id) clearTimeout(id);
     id = setTimeout(() => {
       fn.apply(this, args);
